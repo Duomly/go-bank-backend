@@ -27,14 +27,6 @@ func connectDB() *gorm.DB {
 	return db
 }
 
-// This is correct way of creating password
-// func HashAndSalt(pass []byte) string {
-// 	hashed, err := bcrypt.GenerateFromPassword(pass, bcrypt.MinCost)
-// 	helpers.HandleErr(err)
-
-// 	return string(hashed)
-// }
-
 func createAccounts() {
 	db := connectDB()
 
@@ -45,8 +37,7 @@ func createAccounts() {
 
 	for i := 0; i < len(users); i++ {
 		// Correct one way
-		// generatedPassword := helpers.HashAndSalt([]byte(users[i].Username))
-		generatedPassword := helpers.HashOnlyVulnerable([]byte(users[i].Username))
+		generatedPassword := helpers.HashAndSalt([]byte(users[i].Username))
 		user := User{Username: users[i].Username, Email: users[i].Email, Password: generatedPassword}
 		db.Create(&user)
 
