@@ -8,7 +8,8 @@ import (
 	"net/http"
 
 	"duomly.com/go-bank-backend/helpers"
-	"duomly.com/go-bank-backend/vulnerableDB"
+	"duomly.com/go-bank-backend/users"
+
 	"github.com/gorilla/mux"
 )
 
@@ -17,26 +18,25 @@ type Login struct {
 	Password string
 }
 
-type Response struct {
-	Data []vulnerableDB.User
-}
 
 type ErrResponse struct {
 	Message string
 }
 
 func login(w http.ResponseWriter, r *http.Request) {
+	// Read body
 	body, err := ioutil.ReadAll(r.Body)
   helpers.HandleErr(err)
-
+	// Handle Login
 	var formattedBody Login
 	err = json.Unmarshal(body, &formattedBody)
 	helpers.HandleErr(err)
-	login := vulnerableDB.VulnerableLogin(formattedBody.Username, formattedBody.Password)
-
-	if len(login) > 0 {
-		resp := Response{Data: login}
+	login := users.Login(formattedBody.Username, formattedBody.Password)
+	// Prepare response
+	if login["message"] == "all is fine" {
+		resp := login
 		json.NewEncoder(w).Encode(resp)
+		// Handle error in else
 	} else {
 		resp := ErrResponse{Message: "Wrong username or password"}
 		json.NewEncoder(w).Encode(resp)
