@@ -50,7 +50,5 @@ func Login(username string, pass string) map[string]interface{} {
 	response["jwt"] = token
 	response["data"] = responseUser
 
-	var response = prepareResponse(user)
 	return response
-	
 }
