@@ -29,3 +29,9 @@ type ResponseUser struct {
 	Email string
 	Accounts []ResponseAccount
 }
+
+// Create Validation interface
+type Validation struct {
+	Value string
+	Valid string
+}
