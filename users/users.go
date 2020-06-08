@@ -5,7 +5,6 @@ import (
 
 	"duomly.com/go-bank-backend/helpers"
 	"duomly.com/go-bank-backend/interfaces"
-	"duomly.com/go-bank-backend/useraccounts"
 	"github.com/dgrijalva/jwt-go"
 	"golang.org/x/crypto/bcrypt"
 )
@@ -121,7 +120,6 @@ func GetUser(id string, jwt string) map[string]interface{} {
 		defer db.Close()
 
 		var response = prepareResponse(user, accounts, false);
-		useraccounts.UpdateAccount(1,21000)
 		return response
 	} else {
 		return map[string]interface{}{"message": "Not valid token"}

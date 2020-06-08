@@ -6,7 +6,7 @@ import (
 )
 
 // UpdateAccount Create function update account
-func UpdateAccount(id uint, amount int) {
+func updateAccount(id uint, amount int) {
 	db := helpers.ConnectDB()
 	db.Model(&interfaces.Account{}).Where("id = ?", id).Update("balance", amount)
 	defer db.Close()
