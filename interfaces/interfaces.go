@@ -17,6 +17,14 @@ type Account struct {
 	UserID uint
 }
 
+// Create transaction interface
+type Transaction struct {
+	gorm.Model
+  From uint
+	To uint
+	Amount int
+}
+
 type ResponseAccount struct {
 	ID uint
 	Name string
