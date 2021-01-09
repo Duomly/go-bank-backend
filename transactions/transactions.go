@@ -5,13 +5,14 @@ import (
 	"duomly.com/go-bank-backend/helpers"
 	"duomly.com/go-bank-backend/interfaces"
 )
+
 // Refactor CreateTransaction to use database package
 func CreateTransaction(From uint, To uint, Amount int) {
-	transaction := &interfaces.Transaction{From: From, To: To}
+	transaction := &interfaces.Transaction{From: From, To: To, Amount: Amount}
 	database.DB.Create(&transaction)
 }
 
-func GetTransactionsByAccount(id uint) []interfaces.ResponseTransaction{
+func GetTransactionsByAccount(id uint) []interfaces.ResponseTransaction {
 	transactions := []interfaces.ResponseTransaction{}
 	database.DB.Table("transactions").Select("id, transactions.from, transactions.to, amount").Where(interfaces.Transaction{From: id}).Or(interfaces.Transaction{To: id}).Scan(&transactions)
 	return transactions
@@ -25,7 +26,7 @@ func GetMyTransactions(id string, jwt string) map[string]interface{} {
 		// Find and return transactions
 		accounts := []interfaces.ResponseAccount{}
 		database.DB.Table("accounts").Select("id, name, balance").Where("user_id = ? ", id).Scan(&accounts)
-		
+
 		transactions := []interfaces.ResponseTransaction{}
 		for i := 0; i < len(accounts); i++ {
 			accTransactions := GetTransactionsByAccount(accounts[i].ID)
@@ -37,5 +38,5 @@ func GetMyTransactions(id string, jwt string) map[string]interface{} {
 		return response
 	} else {
 		return map[string]interface{}{"message": "Not valid token"}
-	 }
+	}
 }

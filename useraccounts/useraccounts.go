@@ -53,7 +53,7 @@ func Transaction(userId uint, from uint, to uint, amount int, jwt string) map[st
 		}
 		// Update account
 		updatedAccount := updateAccount(from, int(fromAccount.Balance) - amount)
-		updateAccount(to, int(fromAccount.Balance) + amount)
+		updateAccount(to, int(toAccount.Balance) + amount)
 
 		// Create transaction
 		transactions.CreateTransaction(from, to, amount)
