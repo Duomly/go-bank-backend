@@ -7,7 +7,7 @@ import (
 )
 // Refactor CreateTransaction to use database package
 func CreateTransaction(From uint, To uint, Amount int) {
-	transaction := &interfaces.Transaction{From: From, To: To}
+	transaction := &interfaces.Transaction{From: From, To: To, Amount: Amount}
 	database.DB.Create(&transaction)
 }
 
